@@ -22,7 +22,7 @@ public class Main {
         System.out.println("b: " + dichPoints[1]);
 
         svenPoints = new Point[] {svenPoints[0], svenPoints[2]};
-        // Метод золотого січення
+        // Метод "золотого перетину"
         GoldenSectionSolver exGold = new GoldenSectionSolver(svenPoints, precision, f);
         Point[] goldPoints = exGold.solve();
         System.out.println("\nGolden section algorithm:");
