@@ -5,6 +5,7 @@ public class Main {
         Function<Double, Double> f = x -> Math.pow(x, 2) - 9 * x;
         double x0 = 5.5;
         double step = 0.1;
+        // Алгоритм Свена
         SvenSolver exSven = new SvenSolver(x0, step, f);
         Point[] svenPoints = exSven.solve();
         System.out.println("Sven algorithm:");
@@ -13,6 +14,7 @@ public class Main {
         }
 
         double precision = 0.2;
+        // Метод дихотомії
         DichotomySolver exDich = new DichotomySolver(svenPoints, precision, f);
         Point[] dichPoints = exDich.solve();
         System.out.println("\nDichotomy algorithm:");
@@ -20,6 +22,7 @@ public class Main {
         System.out.println("b: " + dichPoints[1]);
 
         svenPoints = new Point[] {svenPoints[0], svenPoints[2]};
+        // Метод золотого січення
         GoldenSectionSolver exGold = new GoldenSectionSolver(svenPoints, precision, f);
         Point[] goldPoints = exGold.solve();
         System.out.println("\nGolden section algorithm:");
@@ -27,6 +30,7 @@ public class Main {
         System.out.println("b: " + goldPoints[1]);
 
         precision = 0.01;
+        // Метод ДСК-Пауелла
         DSKPowellSolver exDSKP = new DSKPowellSolver(x0, step, precision, f);
         System.out.println("\nDSK-Powell algorithm:");
         exDSKP.solve().forEach(
@@ -47,6 +51,7 @@ public class Main {
         // рівною 0, бо пріоритет надаватиметься тому, щоб висвітлити лише перші 3 ітерації
         precision = 0;
         int iterationsNum = 3;
+        // Метод Ньютона-Рафсона
         NewtonRaphsonSolver exNewt = new NewtonRaphsonSolver(x0, precision, f2FD, f2SD);
         System.out.println("\nNewton-Raphson algorithm:");
         exNewt.solve(iterationsNum).forEach(
@@ -60,6 +65,7 @@ public class Main {
         );
 
         double[] interval = new double[] {0.1, 2};
+        // Метод середньої точки
         MiddlePointSolver exMiddle = new MiddlePointSolver(interval, precision, f2FD);
         System.out.println("\nMiddle point algorithm:");
         exMiddle.solve(iterationsNum).forEach(
@@ -71,6 +77,7 @@ public class Main {
                 }
         );
 
+        // Метод січних
         SecantSolver exSecant = new SecantSolver(interval, precision, f2FD);
         System.out.println("\nSecant algorithm:");
         exSecant.solve(iterationsNum).forEach(
