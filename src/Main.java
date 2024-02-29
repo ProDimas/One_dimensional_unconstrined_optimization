@@ -1,6 +1,9 @@
+import java.util.List;
 import java.util.function.Function;
 
 public class Main {
+    private static final int AFTER_COMMA = 2;
+
     public static void main(String[] args) {
         Function<Double, Double> f = x -> Math.pow(x, 2) - 9 * x;
         double x0 = 5.5;
@@ -54,7 +57,8 @@ public class Main {
         // Метод Ньютона-Рафсона
         NewtonRaphsonSolver exNewt = new NewtonRaphsonSolver(x0, precision, f2FD, f2SD);
         System.out.println("\nNewton-Raphson algorithm:");
-        exNewt.solve(iterationsNum).forEach(
+        List<double[]> resultNewt = exNewt.solve(iterationsNum);
+        resultNewt.forEach(
                 arr -> {
                     System.out.println("x_i: " + arr[0]);
                     System.out.println("f_i': " + arr[1]);
@@ -63,12 +67,17 @@ public class Main {
                     System.out.println("-------------------");
                 }
         );
+        double [] lastNewt = resultNewt.get(resultNewt.size() - 1);
+        System.out.println("x and f(x) minimized:");
+        System.out.print(lastNewt[lastNewt.length - 1]);
+        System.out.println(" " + PrecisionRound.round(f2.apply(lastNewt[lastNewt.length - 1]), AFTER_COMMA));
 
         double[] interval = new double[] {0.1, 2};
         // Метод середньої точки
         MiddlePointSolver exMiddle = new MiddlePointSolver(interval, precision, f2FD);
         System.out.println("\nMiddle point algorithm:");
-        exMiddle.solve(iterationsNum).forEach(
+        List<Point[]> resultMiddle = exMiddle.solve(iterationsNum);
+        resultMiddle.forEach(
                 arr -> {
                     System.out.println("x1: " + arr[0]);
                     System.out.println("x2: " + arr[1]);
@@ -76,11 +85,16 @@ public class Main {
                     System.out.println("-------------------");
                 }
         );
+        Point[] lastMiddle = resultMiddle.get(resultMiddle.size() - 1);
+        System.out.println("x and f(x) minimized:");
+        System.out.print(lastMiddle[lastMiddle.length - 1].x());
+        System.out.println(" " + PrecisionRound.round(f2.apply(lastMiddle[lastMiddle.length - 1].x()), AFTER_COMMA));
 
         // Метод січних
         SecantSolver exSecant = new SecantSolver(interval, precision, f2FD);
         System.out.println("\nSecant algorithm:");
-        exSecant.solve(iterationsNum).forEach(
+        List<Point[]> resultSecant = exSecant.solve(iterationsNum);
+        resultSecant.forEach(
                 arr -> {
                     System.out.println("x1: " + arr[0]);
                     System.out.println("x2: " + arr[1]);
@@ -88,5 +102,9 @@ public class Main {
                     System.out.println("-------------------");
                 }
         );
+        Point[] lastSecant = resultSecant.get(resultSecant.size() - 1);
+        System.out.println("x and f(x) minimized:");
+        System.out.print(lastSecant[lastSecant.length - 1].x());
+        System.out.println(" " + PrecisionRound.round(f2.apply(lastSecant[lastSecant.length - 1].x()), AFTER_COMMA));
     }
 }
